@@ -23,7 +23,19 @@ function HoverMask({ containerClassName, portalWrapperClassName, componentId }: 
     labelLeft: 0,
   });
 
+  const [portalElement, setPortalElement] = useState<HTMLElement | null>(null);
+
   const { components } = useComponetsStore();
+
+  useEffect(() => {
+    // 延迟查找portal元素，确保DOM已经渲染
+    const timer = setTimeout(() => {
+      const el = document.querySelector(`.${portalWrapperClassName}`);
+      setPortalElement(el as HTMLElement);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [portalWrapperClassName]);
 
   useEffect(() => {
     updatePosition();
@@ -62,13 +74,14 @@ function HoverMask({ containerClassName, portalWrapperClassName, componentId }: 
     });
   }
 
-  const el = useMemo(() => {
-      return document.querySelector(`.${portalWrapperClassName}`)!
-  }, []);
-
   const curComponent = useMemo(() => {
     return getComponentById(componentId, components);
   }, [componentId]);
+
+  // 如果portal元素不存在，不渲染任何内容
+  if (!portalElement) {
+    return null;
+  }
 
   return createPortal((
     <>
@@ -112,7 +125,7 @@ function HoverMask({ containerClassName, portalWrapperClassName, componentId }: 
           </div>
         </div>
     </>
-  ), el)
+  ), portalElement)
 }
 
 export default HoverMask;

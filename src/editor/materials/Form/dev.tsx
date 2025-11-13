@@ -45,9 +45,20 @@ function Form({ id, name, children, onFinish }: CommonComponentProps) {
             onFinish && onFinish(values)
         }}>
             {formItems.map((item: any) => {
-                return <AntdForm.Item key={item.name} data-component-id={item.id} name={item.name} label={item.label} >
-                    <Input style={{pointerEvents: 'none'}}/>
-                </AntdForm.Item>
+                // 只有当item.name存在时才设置name属性，否则只用于布局显示
+                const formItemProps = item.name 
+                    ? { name: item.name, label: item.label }
+                    : { label: item.label };
+                
+                return (
+                    <AntdForm.Item 
+                        key={item.id || item.name} 
+                        data-component-id={item.id} 
+                        {...formItemProps}
+                    >
+                        <Input style={{pointerEvents: 'none'}}/>
+                    </AntdForm.Item>
+                );
             })}
         </AntdForm>
     </div>
