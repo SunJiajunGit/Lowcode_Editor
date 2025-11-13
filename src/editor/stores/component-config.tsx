@@ -19,6 +19,20 @@ import DatePickerDev from '../materials/DatePicker/dev';
 import DatePickerProd from '../materials/DatePicker/prod';
 import ImageDev from '../materials/Image/dev';
 import ImageProd from '../materials/Image/prod';
+import DatePickerDev from '../materials/DatePicker/dev';
+import DatePickerProd from '../materials/DatePicker/prod';
+import ImageDev from '../materials/Image/dev';
+import ImageProd from '../materials/Image/prod';
+import InputDev from '../materials/Input/dev';
+import InputProd from '../materials/Input/prod';
+import SelectDev from '../materials/Select/dev';
+import SelectProd from '../materials/Select/prod';
+import SwitchDev from '../materials/Switch/dev';
+import SwitchProd from '../materials/Switch/prod';
+import ProgressDev from '../materials/Progress/dev';
+import ProgressProd from '../materials/Progress/prod';
+import TagDev from '../materials/Tag/dev';
+import TagProd from '../materials/Tag/prod';
 
 export interface ComponentSetter {
     name: string;
@@ -395,6 +409,257 @@ export const useComponentConfigStore = create<State & Action>((set) => ({
             dev: ImageDev,
             prod: ImageProd
         },
+       Input: {
+            name: 'Input',
+            defaultProps: {
+                placeholder: '请输入内容',
+                size: 'middle',
+                prefix: '',
+                suffix: ''
+            },
+            setter: [
+                {
+                  name: 'placeholder',
+                  label: '占位文本',
+                  type: 'input',
+                },
+                {
+                  name: 'size',
+                  label: '尺寸',
+                  type: 'select',
+                  options: [
+                    {label: '小', value: 'small'},
+                    {label: '中', value: 'middle'},
+                    {label: '大', value: 'large'},
+                  ],
+                },
+                {
+                  name: 'prefix',
+                  label: '前缀',
+                  type: 'input',
+                },
+                {
+                  name: 'suffix',
+                  label: '后缀',
+                  type: 'input',
+                },
+            ],
+            stylesSetter: [
+                {
+                    name: 'width',
+                    label: '宽度',
+                    type: 'inputNumber',
+                },
+                {
+                    name: 'height',
+                    label: '高度',
+                    type: 'inputNumber',
+                },
+            ],
+            events: [
+                {
+                    name: 'onChange',
+                    label: '输入改变事件',
+                },
+                {
+                    name: 'onPressEnter',
+                    label: '回车事件',
+                },
+            ],
+            desc: '输入框',
+            dev: InputDev,
+            prod: InputProd
+        },
+        Select: {
+            name: 'Select',
+            defaultProps: {
+                placeholder: '请选择',
+                mode: 'default',
+                options: [
+                    {label: '选项1', value: '1'},
+                    {label: '选项2', value: '2'},
+                    {label: '选项3', value: '3'}
+                ]
+            },
+            setter: [
+                {
+                  name: 'placeholder',
+                  label: '占位文本',
+                  type: 'input',
+                },
+                {
+                  name: 'mode',
+                  label: '模式',
+                  type: 'select',
+                  options: [
+                    {label: '单选', value: 'default'},
+                    {label: '多选', value: 'multiple'},
+                    {label: '标签', value: 'tags'},
+                  ],
+                },
+            ],
+            stylesSetter: [
+                {
+                    name: 'width',
+                    label: '宽度',
+                    type: 'inputNumber',
+                },
+            ],
+            events: [
+                {
+                    name: 'onChange',
+                    label: '选择改变事件',
+                },
+            ],
+            desc: '选择器',
+            dev: SelectDev,
+            prod: SelectProd
+        },
+        Switch: {
+            name: 'Switch',
+            defaultProps: {
+                checked: false,
+                size: 'default',
+                checkedChildren: '',
+                unCheckedChildren: ''
+            },
+            setter: [
+                {
+                  name: 'checked',
+                  label: '默认状态',
+                  type: 'select',
+                  options: [
+                    {label: '开启', value: true},
+                    {label: '关闭', value: false},
+                  ],
+                },
+                {
+                  name: 'size',
+                  label: '尺寸',
+                  type: 'select',
+                  options: [
+                    {label: '默认', value: 'default'},
+                    {label: '小', value: 'small'},
+                  ],
+                },
+                {
+                  name: 'checkedChildren',
+                  label: '开启时文本',
+                  type: 'input',
+                },
+                {
+                  name: 'unCheckedChildren',
+                  label: '关闭时文本',
+                  type: 'input',
+                },
+            ],
+            stylesSetter: [],
+            events: [
+                {
+                    name: 'onChange',
+                    label: '状态改变事件',
+                },
+            ],
+            desc: '开关',
+            dev: SwitchDev,
+            prod: SwitchProd
+        },
+        Progress: {
+            name: 'Progress',
+            defaultProps: {
+                percent: 30,
+                type: 'line',
+                status: 'active',
+                strokeColor: '#1890ff'
+            },
+            setter: [
+                {
+                  name: 'percent',
+                  label: '百分比',
+                  type: 'inputNumber',
+                  min: 0,
+                  max: 100,
+                },
+                {
+                  name: 'type',
+                  label: '类型',
+                  type: 'select',
+                  options: [
+                    {label: '线性', value: 'line'},
+                    {label: '环形', value: 'circle'},
+                    {label: '仪表盘', value: 'dashboard'},
+                  ],
+                },
+                {
+                  name: 'status',
+                  label: '状态',
+                  type: 'select',
+                  options: [
+                    {label: '进行中', value: 'active'},
+                    {label: '成功', value: 'success'},
+                    {label: '异常', value: 'exception'},
+                    {label: '正常', value: 'normal'},
+                  ],
+                },
+            ],
+            stylesSetter: [
+                {
+                    name: 'width',
+                    label: '宽度',
+                    type: 'inputNumber',
+                },
+            ],
+            events: [],
+            desc: '进度条',
+            dev: ProgressDev,
+            prod: ProgressProd
+        },
+        Tag: {
+            name: 'Tag',
+            defaultProps: {
+                color: 'blue',
+                closable: false,
+                children: '标签'
+            },
+            setter: [
+                {
+                  name: 'color',
+                  label: '颜色',
+                  type: 'select',
+                  options: [
+                    {label: '蓝色', value: 'blue'},
+                    {label: '红色', value: 'red'},
+                    {label: '绿色', value: 'green'},
+                    {label: '橙色', value: 'orange'},
+                    {label: '紫色', value: 'purple'},
+                  ],
+                },
+                {
+                  name: 'closable',
+                  label: '可关闭',
+                  type: 'select',
+                  options: [
+                    {label: '是', value: true},
+                    {label: '否', value: false},
+                  ],
+                },
+                {
+                  name: 'children',
+                  label: '标签内容',
+                  type: 'input',
+                },
+            ],
+            stylesSetter: [],
+            events: [
+                {
+                    name: 'onClose',
+                    label: '关闭事件',
+                },
+            ],
+            desc: '标签',
+            dev: TagDev,
+            prod: TagProd
+        },  
     },
     registerComponent: (name, componentConfig) => set((state) => {
         return {
