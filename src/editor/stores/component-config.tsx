@@ -15,6 +15,10 @@ import FormDev from '../materials/Form/dev';
 import FormProd from '../materials/Form/prod';
 import FormItemDev from '../materials/FormItem/dev';
 import FormItemProd from '../materials/FormItem/prod';
+import DatePickerDev from '../materials/DatePicker/dev';
+import DatePickerProd from '../materials/DatePicker/prod';
+import ImageDev from '../materials/Image/dev';
+import ImageProd from '../materials/Image/prod';
 
 export interface ComponentSetter {
     name: string;
@@ -278,7 +282,119 @@ export const useComponentConfigStore = create<State & Action>((set) => ({
                 ],
               }
             ]
-        }
+        },
+        DatePicker: {
+            name: 'DatePicker',
+            defaultProps: {
+                placeholder: '请选择日期',
+                format: 'YYYY-MM-DD'
+            },
+            setter: [
+                {
+                  name: 'placeholder',
+                  label: '占位文本',
+                  type: 'input',
+                },
+                {
+                  name: 'format',
+                  label: '日期格式',
+                  type: 'select',
+                  options: [
+                    {label: '年-月-日', value: 'YYYY-MM-DD'},
+                    {label: '年/月/日', value: 'YYYY/MM/DD'},
+                    {label: '月-日-年', value: 'MM-DD-YYYY'},
+                    {label: '月/日/年', value: 'MM/DD/YYYY'},
+                  ],
+                },
+            ],
+            stylesSetter: [
+                {
+                    name: 'width',
+                    label: '宽度',
+                    type: 'inputNumber',
+                },
+                {
+                    name: 'height',
+                    label: '高度',
+                    type: 'inputNumber',
+                }
+            ],
+            events: [
+                {
+                    name: 'onChange',
+                    label: '日期改变事件',
+                },
+            ],
+            desc: '日期选择器',
+            dev: DatePickerDev,
+            prod: DatePickerProd
+        },
+        Image: {
+            name: 'Image',
+            defaultProps: {
+                src: 'https://via.placeholder.com/200x100',
+                alt: '图片',
+                width: 200,
+                height: 100,
+                preview: true
+            },
+            setter: [
+                {
+                  name: 'src',
+                  label: '图片地址',
+                  type: 'input',
+                },
+                {
+                  name: 'alt',
+                  label: '替代文本',
+                  type: 'input',
+                },
+                {
+                  name: 'width',
+                  label: '宽度',
+                  type: 'inputNumber',
+                },
+                {
+                  name: 'height',
+                  label: '高度',
+                  type: 'inputNumber',
+                },
+                {
+                  name: 'preview',
+                  label: '预览功能',
+                  type: 'select',
+                  options: [
+                    {label: '开启', value: true},
+                    {label: '关闭', value: false},
+                  ],
+                },
+            ],
+            stylesSetter: [
+                {
+                    name: 'borderRadius',
+                    label: '圆角',
+                    type: 'inputNumber',
+                },
+                {
+                    name: 'border',
+                    label: '边框',
+                    type: 'input',
+                },
+            ],
+            events: [
+                {
+                    name: 'onClick',
+                    label: '点击事件',
+                },
+                {
+                    name: 'onLoad',
+                    label: '加载完成事件',
+                },
+            ],
+            desc: '图片展示',
+            dev: ImageDev,
+            prod: ImageProd
+        },
     },
     registerComponent: (name, componentConfig) => set((state) => {
         return {
