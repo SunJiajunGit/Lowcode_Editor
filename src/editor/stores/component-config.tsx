@@ -353,10 +353,10 @@ export const useComponentConfigStore = create<State & Action>((set) => ({
         Image: {
             name: 'Image',
             defaultProps: {
-                src: 'https://via.placeholder.com/200x100',
+                src: '/school.png',
                 alt: '图片',
                 width: 200,
-                height: 100,
+                height: 150,
                 preview: true
             },
             setter: [
