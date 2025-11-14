@@ -29,6 +29,17 @@ import ProgressDev from '../materials/Progress/dev';
 import ProgressProd from '../materials/Progress/prod';
 import TagDev from '../materials/Tag/dev';
 import TagProd from '../materials/Tag/prod';
+// 新增布局容器组件导入
+import CardContainerDev from '../materials/CardContainer/dev';
+import CardContainerProd from '../materials/CardContainer/prod';
+import GridContainerDev from '../materials/GridContainer/dev';
+import GridContainerProd from '../materials/GridContainer/prod';
+import CollapseContainerDev from '../materials/CollapseContainer/dev';
+import CollapseContainerProd from '../materials/CollapseContainer/prod';
+import TabsContainerDev from '../materials/TabsContainer/dev';
+import TabsContainerProd from '../materials/TabsContainer/prod';
+import SplitContainerDev from '../materials/SplitContainer/dev';
+import SplitContainerProd from '../materials/SplitContainer/prod';
 
 export interface ComponentSetter {
     name: string;

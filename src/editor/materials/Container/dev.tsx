@@ -5,7 +5,11 @@ import { useEffect, useRef } from 'react';
 
 const Container = ({ id, name, children, styles }: CommonComponentProps) => {
 
-    const {canDrop, drop } = useMaterailDrop(['Button', 'Container', 'Table', 'Form', 'DatePicker', 'Image', 'Input', 'Select', 'Switch', 'Progress', 'Tag'], id);
+    const {canDrop, drop } = useMaterailDrop([
+        'Button', 'Container', 'Table', 'Form', 'DatePicker', 'Image', 'Input', 
+        'Select', 'Switch', 'Progress', 'Tag', 'CardContainer', 'GridContainer', 
+        'CollapseContainer', 'TabsContainer', 'SplitContainer'
+    ], id);
 
     const divRef = useRef<HTMLDivElement>(null);
 
