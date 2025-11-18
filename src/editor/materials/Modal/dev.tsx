@@ -6,7 +6,7 @@ function Modal({ id, children, title, styles }: CommonComponentProps) {
     const {canDrop, drop } = useMaterailDrop([
         'Button', 'Container', 'Table', 'Form', 'DatePicker', 'Image', 'Input', 
         'Select', 'Switch', 'Progress', 'Tag', 'CardContainer', 'GridContainer', 
-        'CollapseContainer', 'TabsContainer', 'SplitContainer'
+        'CollapseContainer', 'TabsContainer', 'SplitContainer', 'RichTextEditor', 'LocationPicker'
     ], id);
 
     return (

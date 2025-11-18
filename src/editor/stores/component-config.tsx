@@ -208,7 +208,7 @@ export const useComponentConfigStore = create<State & Action>((set) => ({
                   options: [
                     {
                       label: '文本',
-                      value: 'text',
+value: 'text',
                     },
                     {
                       label: '日期',
@@ -404,7 +404,7 @@ export const useComponentConfigStore = create<State & Action>((set) => ({
             ],
             events: [
                 {
-                    name: 'onClick',
+name: 'onClick',
                     label: '点击事件',
                 },
                 {
@@ -666,6 +666,133 @@ export const useComponentConfigStore = create<State & Action>((set) => ({
             desc: '标签',
             dev: TagDev,
             prod: TagProd
+        },
+        // 新增富文本编辑组件配置
+        RichTextEditor: {
+            name: 'RichTextEditor',
+            defaultProps: {
+                value: '',
+                placeholder: '请输入富文本内容',
+                language: 'html'
+            },
+            setter: [
+                {
+                  name: 'placeholder',
+                  label: '占位文本',
+                  type: 'input',
+                },
+                {
+                  name: 'language',
+                  label: '语言模式',
+                  type: 'select',
+                  options: [
+                    {label: 'HTML', value: 'html'},
+                    {label: 'Markdown', value: 'markdown'},
+                    {label: '纯文本', value: 'plaintext'},
+                  ],
+                },
+            ],
+            stylesSetter: [
+                {
+                    name: 'width',
+                    label: '宽度',
+                    type: 'inputNumber',
+                },
+                {
+                    name: 'height',
+                    label: '高度',
+                    type: 'inputNumber',
+                },
+                {
+                    name: 'fontSize',
+                    label: '字体大小',
+                    type: 'inputNumber',
+                },
+            ],
+            events: [
+                {
+                    name: 'onChange',
+                    label: '内容改变事件',
+                },
+                {
+                    name: 'onFocus',
+                    label: '聚焦事件',
+                },
+                {
+                    name: 'onBlur',
+                    label: '失焦事件',
+                },
+            ],
+            methods: [
+                {
+                    name: 'getValue',
+                    label: '获取内容',
+                },
+                {
+                    name: 'setValue',
+                    label: '设置内容',
+                },
+            ],
+            desc: '富文本编辑器',
+            dev: RichTextEditorDev,
+            prod: RichTextEditorProd
+        },
+        // 新增位置选择组件配置
+        LocationPicker: {
+            name: 'LocationPicker',
+            defaultProps: {
+                value: '',
+                placeholder: '请选择位置',
+                apiKey: 'your-baidu-map-api-key'
+            },
+            setter: [
+                {
+                  name: 'placeholder',
+                  label: '占位文本',
+                  type: 'input',
+                },
+                {
+                  name: 'apiKey',
+                  label: '百度地图API Key',
+                  type: 'input',
+                  placeholder: '请输入您的百度地图API Key'
+                },
+            ],
+            stylesSetter: [
+                {
+                    name: 'width',
+                    label: '宽度',
+                    type: 'inputNumber',
+                },
+                {
+                    name: 'height',
+                    label: '高度',
+                    type: 'inputNumber',
+                },
+            ],
+            events: [
+                {
+                    name: 'onChange',
+                    label: '位置改变事件',
+                },
+                {
+                    name: 'onSelect',
+                    label: '位置选择事件',
+                },
+            ],
+            methods: [
+                {
+                    name: 'getLocation',
+                    label: '获取当前位置',
+                },
+                {
+                    name: 'setLocation',
+                    label: '设置位置',
+                },
+            ],
+            desc: '位置选择器',
+            dev: LocationPickerDev,
+            prod: LocationPickerProd
         },  
     },
     registerComponent: (name, componentConfig) => set((state) => {
