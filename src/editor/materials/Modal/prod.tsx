@@ -7,7 +7,9 @@ export interface ModalRef {
     close: () => void
 }
 
-const Modal: React.ForwardRefRenderFunction<ModalRef, CommonComponentProps> = ({ children, title, onOk, onCancel, styles }, ref) => {
+type ModalProps = Omit<CommonComponentProps, 'ref'>;
+
+const Modal: React.ForwardRefRenderFunction<ModalRef, ModalProps> = ({ children, title, onOk, onCancel, styles }, ref) => {
 
   const [open, setOpen] = useState(false);
 
@@ -34,7 +36,7 @@ const Modal: React.ForwardRefRenderFunction<ModalRef, CommonComponentProps> = ({
       onOk={() => {
         onOk && onOk();
       }}
-      destroyOnClose
+      destroyOnHidden
     >
       {children}
     </AntdModal>

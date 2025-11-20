@@ -7,7 +7,10 @@ export interface FormRef {
     submit: () => void
 }
 
-const Form: ForwardRefRenderFunction<FormRef, CommonComponentProps> = ({ children, onFinish }, ref)  => {
+// 定义组件props类型，排除ref属性
+type FormProps = Omit<CommonComponentProps, 'ref'>;
+
+const Form: ForwardRefRenderFunction<FormRef, FormProps> = ({ children, onFinish }, ref)  => {
     const [form] = AntdForm.useForm();
 
     useImperativeHandle(ref, () => {
@@ -18,18 +21,26 @@ const Form: ForwardRefRenderFunction<FormRef, CommonComponentProps> = ({ childre
         }
     }, [form]);
 
+    // 自动命名数组
+    const autoLabels = ['姓名', '联系方式', '住址', '绩点'];
+
     const formItems = useMemo(() => {
-        return React.Children.map(children, (item: any) => {
+        if (!children) return [];
+        
+        const childrenArray = React.Children.toArray(children);
+        return childrenArray.map((item: any, index: number) => {
+            // 根据子项的顺序自动设置标签名
+            const autoLabel = autoLabels[index] || `表单项${index + 1}`;
+            
             return {
-                label: item.props?.label,
-                name: item.props?.name,
-                type: item.props?.type,
+                label: item.props?.label || autoLabel,
+                name: item.props?.name || `field${index + 1}`,
+                type: item.props?.type || 'input',
                 id: item.props?.id,
                 rules: item.props?.rules,
             }
         });
     }, [children]);
-
 
     async function save(values: any) {
         Object.keys(values).forEach(key => {
@@ -38,7 +49,7 @@ const Form: ForwardRefRenderFunction<FormRef, CommonComponentProps> = ({ childre
             }
         })
 
-        onFinish(values);
+        onFinish && onFinish(values);
     }
 
     return <AntdForm name='form' labelCol={{ span: 5 }} wrapperCol={{ span: 18 }} form={form} onFinish={save}>

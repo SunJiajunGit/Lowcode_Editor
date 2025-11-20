@@ -29,7 +29,6 @@ import ProgressDev from '../materials/Progress/dev';
 import ProgressProd from '../materials/Progress/prod';
 import TagDev from '../materials/Tag/dev';
 import TagProd from '../materials/Tag/prod';
-// 新增布局容器组件导入
 import CardContainerDev from '../materials/CardContainer/dev';
 import CardContainerProd from '../materials/CardContainer/prod';
 import GridContainerDev from '../materials/GridContainer/dev';
@@ -40,6 +39,12 @@ import TabsContainerDev from '../materials/TabsContainer/dev';
 import TabsContainerProd from '../materials/TabsContainer/prod';
 import SplitContainerDev from '../materials/SplitContainer/dev';
 import SplitContainerProd from '../materials/SplitContainer/prod';
+// 新增富文本编辑组件导入
+import RichTextEditorDev from '../materials/RichTextEditor/dev';
+import RichTextEditorProd from '../materials/RichTextEditor/prod';
+// 新增位置选择组件导入
+import LocationPickerDev from '../materials/LocationPicker/dev';
+import LocationPickerProd from '../materials/LocationPicker/prod';
 
 export interface ComponentSetter {
     name: string;
@@ -93,7 +98,7 @@ export const useComponentConfigStore = create<State & Action>((set) => ({
                 type: 'primary',
                 text: '按钮'
             },
-            setter: [
+setter: [
                 {
                   name: 'type',
                   label: '按钮类型',
@@ -256,13 +261,15 @@ value: 'text',
             dev: FormDev,
             prod: FormProd
         },
+        // 在FormItem的配置中添加默认属性
         FormItem: {
+            defaultProps: {
+                label: '', // 留空，由Form组件自动设置
+                name: '', // 留空，由Form组件自动设置
+                type: 'input'
+            },
             name: 'FormItem',
             desc: '表单项',
-            defaultProps: {
-                name: new Date().getTime(),
-                label: '姓名'
-            },
             dev: FormItemDev,
             prod: FormItemProd,
             setter: [
@@ -667,7 +674,6 @@ name: 'onClick',
             dev: TagDev,
             prod: TagProd
         },
-        // 新增富文本编辑组件配置
         RichTextEditor: {
             name: 'RichTextEditor',
             defaultProps: {

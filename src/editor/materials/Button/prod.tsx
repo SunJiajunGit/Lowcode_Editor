@@ -1,10 +1,11 @@
+import React from 'react';
 import { Button as AntdButton } from 'antd';
 import { CommonComponentProps } from '../../interface';
 
-const Button = ({id, type, text, styles, ...props}: CommonComponentProps) => {
+const Button = React.forwardRef<any, CommonComponentProps>(({id, type, text, styles, ...props}, ref) => {
   return (
-    <AntdButton type={type} style={styles} {...props}>{text}</AntdButton>
+    <AntdButton ref={ref} type={type} style={styles} {...props}>{text}</AntdButton>
   )
-}
+});
 
 export default Button;

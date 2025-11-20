@@ -25,12 +25,21 @@ function Form({ id, name, children, onFinish }: CommonComponentProps) {
         drag(divRef);
     }, []);
 
+    // 自动命名数组
+    const autoLabels = ['姓名', '联系方式', '住址', '绩点'];
+
     const formItems = useMemo(() => {
-        return React.Children.map(children, (item: any) => {
+        if (!children) return [];
+        
+        const childrenArray = React.Children.toArray(children);
+        return childrenArray.map((item: any, index: number) => {
+            // 根据子项的顺序自动设置标签名
+            const autoLabel = autoLabels[index] || `表单项${index + 1}`;
+            
             return {
-                label: item.props?.label,
-                name: item.props?.name,
-                type: item.props?.type,
+                label: item.props?.label || autoLabel,
+                name: item.props?.name || `field${index + 1}`,
+                type: item.props?.type || 'input',
                 id: item.props?.id,
             }
         });
@@ -41,20 +50,16 @@ function Form({ id, name, children, onFinish }: CommonComponentProps) {
         ref={divRef}
         data-component-id={id}
     >
-        <AntdForm labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} form={form} onFinish={(values) =>{
+        <AntdForm labelCol={{ span: 5 }} wrapperCol={{ span: 18 }} form={form} onFinish={(values) =>{
             onFinish && onFinish(values)
         }}>
             {formItems.map((item: any) => {
-                // 只有当item.name存在时才设置name属性，否则只用于布局显示
-                const formItemProps = item.name 
-                    ? { name: item.name, label: item.label }
-                    : { label: item.label };
-                
                 return (
                     <AntdForm.Item 
                         key={item.id || item.name} 
                         data-component-id={item.id} 
-                        {...formItemProps}
+                        name={item.name}
+                        label={item.label}
                     >
                         <Input style={{pointerEvents: 'none'}}/>
                     </AntdForm.Item>
