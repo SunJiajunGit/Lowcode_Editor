@@ -28,7 +28,6 @@ function HoverMask({ containerClassName, portalWrapperClassName, componentId }: 
   const { components } = useComponetsStore();
 
   useEffect(() => {
-    // 延迟查找portal元素，确保DOM已经渲染
     const timer = setTimeout(() => {
       const el = document.querySelector(`.${portalWrapperClassName}`);
       setPortalElement(el as HTMLElement);
@@ -45,28 +44,64 @@ function HoverMask({ containerClassName, portalWrapperClassName, componentId }: 
     updatePosition();
   }, [components]);
 
+  useEffect(() => {
+    // 添加滚动事件监听
+    const scrollHandler = () => {
+      updatePosition();
+    };
+    
+    // 查找滚动容器并添加滚动事件监听
+    const container = document.querySelector(`.${containerClassName}`);
+    if (container) {
+      // 找到内部的滚动容器
+      const scrollContainer = container.querySelector('.overflow-auto');
+      if (scrollContainer) {
+        scrollContainer.addEventListener('scroll', scrollHandler);
+      }
+    }
+    
+    return () => {
+      // 清理滚动事件监听
+      const container = document.querySelector(`.${containerClassName}`);
+      if (container) {
+        const scrollContainer = container.querySelector('.overflow-auto');
+        if (scrollContainer) {
+          scrollContainer.removeEventListener('scroll', scrollHandler);
+        }
+      }
+    }
+  }, []);
+
   function updatePosition() {
     if (!componentId) return;
 
     const container = document.querySelector(`.${containerClassName}`);
     if (!container) return;
 
+    // 找到内部的滚动容器
+    const scrollContainer = container.querySelector('.overflow-auto') || container;
+
     const node = document.querySelector(`[data-component-id="${componentId}"]`);
     if (!node) return;
 
+    // 使用getBoundingClientRect获取相对位置
     const { top, left, width, height } = node.getBoundingClientRect();
-    const { top: containerTop, left: containerLeft } = container.getBoundingClientRect();
+    const { top: scrollContainerTop, left: scrollContainerLeft } = scrollContainer.getBoundingClientRect();
 
-    let labelTop = top - containerTop + container.scrollTop;
-    let labelLeft = left - containerLeft + width;
+    // 计算相对于滚动容器的位置，确保正确考虑滚动偏移
+    const relativeTop = top - scrollContainerTop;
+    const relativeLeft = left - scrollContainerLeft;
+
+    let labelTop = relativeTop;
+    let labelLeft = relativeLeft + width;
 
     if (labelTop <= 0) {
       labelTop -= -20;
     }
   
     setPosition({
-      top: top - containerTop + container.scrollTop,
-      left: left - containerLeft + container.scrollTop,
+      top: relativeTop,
+      left: relativeLeft,
       width,
       height,
       labelTop,

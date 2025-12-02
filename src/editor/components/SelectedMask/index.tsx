@@ -54,8 +54,32 @@ function SelectedMask({ containerClassName, portalWrapperClassName, componentId 
       updatePosition();
     }
     window.addEventListener('resize', resizeHandler)
+    
+    // 添加滚动事件监听
+    const scrollHandler = () => {
+      updatePosition();
+    };
+    
+    // 查找滚动容器并添加滚动事件监听
+    const container = document.querySelector(`.${containerClassName}`);
+    if (container) {
+      // 找到内部的滚动容器（我们之前添加的那个）
+      const scrollContainer = container.querySelector('.overflow-auto');
+      if (scrollContainer) {
+        scrollContainer.addEventListener('scroll', scrollHandler);
+      }
+    }
+    
     return () => {
-      window.removeEventListener('resize', resizeHandler)
+      window.removeEventListener('resize', resizeHandler);
+      // 清理滚动事件监听
+      const container = document.querySelector(`.${containerClassName}`);
+      if (container) {
+        const scrollContainer = container.querySelector('.overflow-auto');
+        if (scrollContainer) {
+          scrollContainer.removeEventListener('scroll', scrollHandler);
+        }
+      }
     }
   }, []);
 
@@ -65,22 +89,27 @@ function SelectedMask({ containerClassName, portalWrapperClassName, componentId 
     const container = document.querySelector(`.${containerClassName}`);
     if (!container) return;
 
+    const scrollContainer = container.querySelector('.overflow-auto') || container;
+
     const node = document.querySelector(`[data-component-id="${componentId}"]`);
     if (!node) return;
 
     const { top, left, width, height } = node.getBoundingClientRect();
-    const { top: containerTop, left: containerLeft } = container.getBoundingClientRect();
+    const { top: scrollContainerTop, left: scrollContainerLeft } = scrollContainer.getBoundingClientRect();
 
-    let labelTop = top - containerTop + container.scrollTop;
-    let labelLeft = left - containerLeft + width;
+    const relativeTop = top - scrollContainerTop;
+    const relativeLeft = left - scrollContainerLeft;
+
+    let labelTop = relativeTop;
+    let labelLeft = relativeLeft + width;
 
     if (labelTop <= 0) {
       labelTop -= -20;
     }
   
     setPosition({
-      top: top - containerTop + container.scrollTop,
-      left: left - containerLeft + container.scrollTop,
+      top: relativeTop,
+      left: relativeLeft,
       width,
       height,
       labelTop,
