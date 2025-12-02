@@ -64,7 +64,13 @@ export function EditArea() {
     return <div className="h-[100%] edit-area" onMouseOver={handleMouseOver} onMouseLeave={() => {
         setHoverComponentId(undefined);
     }} onClick={handleClick}>
-        {renderComponents(components)}
+        {/* 添加滚动容器，设置固定高度和溢出滚动 */}
+        <div className="h-[100%] overflow-auto bg-white" style={{ padding: '20px' }}>
+            {/* 内部容器，用于存放所有组件 */}
+            <div style={{ minHeight: '100%', position: 'relative' }}>
+                {renderComponents(components)}
+            </div>
+        </div>
         {hoverComponentId && hoverComponentId !== curComponentId && (
             <HoverMask
                 portalWrapperClassName='portal-wrapper'
