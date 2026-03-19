@@ -1,6 +1,7 @@
 import { CSSProperties } from 'react';
 import {create, StateCreator} from 'zustand';
 import { persist } from 'zustand/middleware';
+import { useHistoryStore } from './history';
 
 export interface Component {
   id: number;
@@ -26,6 +27,7 @@ interface Action {
   updateComponentStyles: (componentId: number, styles: CSSProperties, replace?: boolean) => void;
   setCurComponentId: (componentId: number | null) => void;
   setMode: (mode: State['mode']) => void;
+  setComponents: (components: Component[]) => void;
 }
 
 const creator: StateCreator<State & Action> = (set, get) => ({
@@ -107,7 +109,11 @@ const creator: StateCreator<State & Action> = (set, get) => ({
         }
 
         return {components: [...state.components]};
-      })   
+      }),
+  setComponents: (components) => {
+    set({ components });
+    useHistoryStore.getState().addHistory(components); // ✅ 集成历史记录
+    }   
 });
 
 export const useComponetsStore = create<State & Action>()(persist(creator, {
